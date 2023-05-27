@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
        }
 
      if(Input.GetKeyDown(KeyCode.LeftArrow)){
-        desiredLane++;
+        desiredLane--   ;
             if(desiredLane==-1)
              desiredLane=0;   
        }
@@ -44,7 +44,7 @@ public class Player : MonoBehaviour
             targetPositon += Vector3.right * laneDistance;
         }
 
-         transform.position= Vector3.Lerp(transform.position,targetPositon,80*Time.deltaTime); 
+         transform.position= Vector3.Lerp(transform.position, targetPositon, 80*Time.fixedDeltaTime); 
 
     }
 
