@@ -25,13 +25,13 @@ public class Player : MonoBehaviour
        if(Input.GetKeyDown(KeyCode.RightArrow)){
         desiredLane++;
             if(desiredLane==3)
-            desiredLane==2;
+            desiredLane=2;
        }
 
      if(Input.GetKeyDown(KeyCode.LeftArrow)){
         desiredLane++;
             if(desiredLane==-1)
-             desiredLane==0;   
+             desiredLane=0;   
        }
        Vector3 targetPositon = transform.position.z * transform.forward + transform.position.y * transform.up;
        
