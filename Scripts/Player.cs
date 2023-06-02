@@ -10,18 +10,21 @@ public class Player : MonoBehaviour
 
     private int desiredLane=1; 
     public float laneDistance=4;
+
+    public float Gravity=-20;
     
     void Start()
     { 
-
         controller = GetComponent<CharacterController>();
-
     }
 
     // Update is called once per frame
      private void Update()
     {
+       
         direction.z = forwardSpeed; 
+        direction.y += Gravity*Time.deltaTime;
+
        if(Input.GetKeyDown(KeyCode.RightArrow)){
         desiredLane++;
             if(desiredLane==3)
@@ -33,24 +36,36 @@ public class Player : MonoBehaviour
             if(desiredLane==-1)
              desiredLane=0;   
        }
-       Vector3 targetPositon = transform.position.z * transform.forward + transform.position.y * transform.up;
+       Vector3 targetPosition = transform.position.z * transform.forward + transform.position.y * transform.up;
        
        
         if(desiredLane==0) {
-            targetPositon += Vector3.left * laneDistance;
+            targetPosition += Vector3.left * laneDistance;
         
         }
         else if(desiredLane ==2){
-            targetPositon += Vector3.right * laneDistance;
+            targetPosition += Vector3.right * laneDistance;
         }
 
-         transform.position= Vector3.Lerp(transform.position, targetPositon, 80*Time.fixedDeltaTime); 
+       transform.position= Vector3.Lerp(transform.position, targetPosition, 80 * Time.fixedDeltaTime); 
+        controller.center = controller.center;
+        
 
     }
 
      void FixedUpdate()
     {
+        if(!PlayerMenu.isGameStarted)
+        return;
         controller.Move(direction * Time.fixedDeltaTime);
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if(hit.transform.tag == "Obstacle")
+        {
+            PlayerMenu.gameOver = true;
+        }
     }
 }
 

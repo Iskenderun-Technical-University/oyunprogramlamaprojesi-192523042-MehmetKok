@@ -7,7 +7,7 @@ public class TileManager : MonoBehaviour
     public  GameObject[] tilePrefabs;
     public float zSpawn;
     public float tileLenght =30;
-    public int numberOfTiles=4;
+    public int numberOfTiles=5;
     public Transform playerTransform;
     public List<GameObject> activeTiles = new List<GameObject>();
     // Start is called before the first frame update
@@ -24,10 +24,8 @@ public class TileManager : MonoBehaviour
         SpawnTile(0);   
         else
         SpawnTile(GameObject tilePrefabs = tilePrefabs[Random.Range(0, tilePrefabs.Length)]);*/
-        
-        
      }
-       
+     
     }
 
     // Update is called once per frame
