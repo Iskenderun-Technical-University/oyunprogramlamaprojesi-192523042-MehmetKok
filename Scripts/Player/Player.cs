@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     private CharacterController controller;
     private Vector3 direction;
     public float forwardSpeed;
+    public float maxSpeed;
 
     private int desiredLane=1; 
     public float laneDistance=4;
@@ -21,6 +22,12 @@ public class Player : MonoBehaviour
     // Update is called once per frame
      private void Update()
     {
+        if(!PlayerMenu.isGameStarted)
+        return;
+
+        if(forwardSpeed < maxSpeed)
+        forwardSpeed += 0.1f * Time.deltaTime;
+
        
         direction.z = forwardSpeed; 
         direction.y += Gravity*Time.deltaTime;
@@ -28,13 +35,13 @@ public class Player : MonoBehaviour
        if(Input.GetKeyDown(KeyCode.RightArrow)){
         desiredLane++;
             if(desiredLane==3)
-            desiredLane=2;
+            desiredLane=3;
        }
 
      if(Input.GetKeyDown(KeyCode.LeftArrow)){
-        desiredLane--   ;
+        desiredLane--;
             if(desiredLane==-1)
-             desiredLane=0;   
+             desiredLane=-1;   
        }
        Vector3 targetPosition = transform.position.z * transform.forward + transform.position.y * transform.up;
        
@@ -47,7 +54,7 @@ public class Player : MonoBehaviour
             targetPosition += Vector3.right * laneDistance;
         }
 
-       transform.position= Vector3.Lerp(transform.position, targetPosition, 80 * Time.fixedDeltaTime); 
+       transform.position= Vector3.Lerp(transform.position, targetPosition, 70 * Time.fixedDeltaTime); 
         controller.center = controller.center;
         
 
@@ -64,7 +71,9 @@ public class Player : MonoBehaviour
     {
         if(hit.transform.tag == "Obstacle")
         {
+
             PlayerMenu.gameOver = true;
+            FindObjectOfType<SesYonetim>().PlaySound("GameOver");
         }
     }
 }
